@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Template from '@/components/Template'
-import ElementTable from '@/components/ElementTable'
-import DetailInfo from '@/components/DetailInfo'
+import Template from '@/components/pages/Template'
+import ElementTable from '@/components/pages/ElementTable'
+import DetailInfo from '@/components/pages/DetailInfo'
 Vue.use(Router)
 
 export default new Router({
@@ -13,44 +13,19 @@ export default new Router({
       component: Template
     },
     {
-      path: '/user',
-      name: '用户管理',
+      path: '/dashboard',
+      name: '仪表盘',
       component: ElementTable,
     },
     {
-        path: '/userInfo/:id',
-        name: '用户详情页',
-        component: DetailInfo
+      path: '/logdir',
+      name: '日志目录',
+      component: Template,
     },
     {
-      path: '/psd',
-      name: '密码管理',
-      component: Template
-    },
-    {
-      path: '/salary',
-      name: '工资管理',
-      component: Template
-    },
-    {
-      path: '/attendence',
-      name: '考勤管理',
-      component: Template
-    },
-    {
-      path: '/perform',
-      name: '绩效管理',
-      component: Template
-    },
-    {
-      path: '/admin',
-      name: '系统管理',
-      component: Template
-    },
-    {
-      path: '/feedback',
-      name: '意见反馈',
-      component: Template
+      path: '/logprocess',
+      name: '日志处理',
+      component: DetailInfo,
     },
     {
       path: '*',
