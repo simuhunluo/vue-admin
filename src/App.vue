@@ -4,7 +4,7 @@
       <div class="btn" v-on:click="isCollapseHandle">
         <a :class="isCollapse?'el-icon-s-unfold':'el-icon-s-fold'"></a>
       </div>
-      <div class="title">后台管理系统</div>
+      <div class="title">LogUI</div>
     </div>
     <div class="app-content">
       <div class="app-nav">
@@ -26,11 +26,14 @@
               v-for="(item, index) in options"
               :label="item.name"
               :name="item.route"
-            ></el-tab-pane>
+            >
+              <div class="content-wrap">
+                <keep-alive>
+                  <router-view></router-view>
+                </keep-alive>
+              </div>
+            </el-tab-pane>
           </el-tabs>
-        </div>
-        <div class="content-wrap">
-          <router-view />
         </div>
       </div>
     </div>
@@ -54,15 +57,16 @@ body {
   overflow: hidden;
   .app-header {
     color: #fff;
-    flex: 0 0 60px;
+    flex: 0 0 48px;
     background: #324057;
-    height: 60px;
-    line-height: 60px;
-    padding: 0 20px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
+    float: left;
     .btn {
       display: flex;
       flex-direction: row;
@@ -71,33 +75,68 @@ body {
       height: 48px;
       width: 48px;
       font-size: 26px;
-      color: white;
-      position: absolute;
-      left: 10px;
+      color: whitesmoke;
     }
     .title {
-      font-size: 24px;
+      font-size: 20px;
+      font-weight: 700;
+      // left: 60px;
     }
   }
   .app-content {
     flex: 1;
+    width: 100%;
+    height: auto;
     display: flex;
+    overflow: hidden;
     flex-flow: row;
     .app-nav {
       // flex: 0 0 300px;
       background: #eff2f7;
+      // border: 2px solid blue;
+      // margin: 10px 10px;
     }
-    .app-wrap {
-      flex: 1;
-      padding: 10px 20px;
-      overflow: auto;
-      .content-wrap {
-        height: 90%;
-        border: 1px solid #d1dbe5;
-        border-top: none;
-        padding: 0 20px;
-      }
+  }
+  .app-wrap {
+    // flex: 1;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    // margin: 10px 10px;
+    // border: 2px solid red;
+    display: flex;
+  }
+  .template-tabs {
+    width: 100%;
+    height: auto;
+    display: flex;
+    overflow: hidden;
+    // flex: 1;
+  }
+  .content-wrap {
+    // border: 1px solid #d1dbe5;
+    height: auto;
+    // border-top: none;
+    padding: 0px 0px;
+  }
+  .el-tabs {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+    .el-tabs__content {
+      // height: 400px;
+      height: 100%;
+      padding: 8px 8px;
+      overflow: hidden;
     }
+  }
+
+  .el-tab-pane {
+    height: 100%;
+    display: flex;
+    overflow: hidden;
   }
 }
 </style>
@@ -123,6 +162,7 @@ export default {
     },
     // tab切换时，动态的切换路由
     tabClick(tab) {
+      console.log("tabClick- 点击标签页");
       let path = this.activeIndex;
       // 用户详情页的时候，对应了二级路由，需要拼接添加第二级路由
       if (this.activeIndex === "/userInfo") {

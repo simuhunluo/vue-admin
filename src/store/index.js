@@ -10,7 +10,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
       options: [],
-      activeIndex: '/user',
+      activeIndex: '/',
       userInfo: {}
   },
   mutations: {
@@ -25,7 +25,7 @@ const store = new Vuex.Store({
         if (option.route === route) {
           break;
         }
-        index++;
+        index++; 
       }
       this.state.options.splice(index, 1);
     },

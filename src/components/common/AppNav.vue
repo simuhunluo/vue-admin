@@ -37,33 +37,34 @@ export default {
         { route: "/", icon: "el-icon-s-home", name: "首页" },
         { route: "/dashboard", icon: "el-icon-odometer", name: "仪表盘" },
         { route: "/logdir", icon: "el-icon-folder", name: "日志目录" },
-        { route: "/logprocess", icon: "el-icon-document", name: "日志处理" }
+        { route: "/loglevel", icon: "el-icon-setting", name: "日志级别" },
+        { route: "/test", icon: "el-icon-cpu", name: "测试" }
       ],
       isCollapse: false
     };
   },
   created() {
     bus.$on("collapse", value => {
-      console.log(value)
+      console.log(value);
       this.isCollapse = value;
     });
   },
   mounted() {
     // 刷新时以当前路由做为tab加入tabs
-    if (
-      this.$route.path !== "/" &&
-      this.$route.path.indexOf("userInfo") == -1
-    ) {
-      this.$store.commit("add_tabs", { route: "/", name: "首页" });
+    console.log(this.$route.path);
+    console.log(this.$store.state);
+    if (this.$route.path !== "/") {
+      // 刷新时保留当前页
+      // this.$store.commit("add_tabs", { route: "/", name: "首页" });
       this.$store.commit("add_tabs", {
         route: this.$route.path,
         name: this.$route.name
       });
       this.$store.commit("set_active_index", this.$route.path);
     } else {
-      this.$store.commit("add_tabs", { route: "/", name: "首页" });
-      this.$store.commit("set_active_index", "/");
-      this.$router.push("/");
+      this.$store.commit("add_tabs", { route: "/dashboard", name: "仪表盘" });
+      this.$store.commit("set_active_index", "/dashboard");
+      this.$router.push("/dashboard");
     }
   },
   computed: {
