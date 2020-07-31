@@ -1,8 +1,10 @@
 <template>
   <div class="dir-tree">
-    <div class="tree-panel">
+    <div class="tree-panel" v-bind:style="{
+        width:treeWidth+'px'
+      }">
       <div class="tree-header">
-        <div class="refresh-btn">
+        <div class="refresh-btn" @click="generateLogTree">
           <i class="el-icon-refresh-right" style="font-size:20px;;font-weight:700"></i>
         </div>
 
@@ -13,7 +15,7 @@
         v-bind:style="{'padding-right':'10px',
         overflow: 'auto',
         height:'100%',
-        width:treeWidth+'px',
+        
         'max-width':'800px'
         }"
       >
@@ -30,9 +32,12 @@
           >
             <span class="custom-tree-node" slot-scope="{node, data}">
               <span>
-                <i :class="data.isDir?'el-icon-folder':'el-icon-document'"></i>
+                <i :class="data.dirFlag?'el-icon-folder':'el-icon-document'"></i>
               </span>
-              <span :class="data.isDir?'dirStyle':''">{{node.label}}</span>
+              <span
+                :class="data.dirFlag?'dirStyle':''"
+                @click="!data.dirFlag && getFileContent(data.relativeFilePath)"
+              >{{data.fileName}}</span>
 
               <!-- <el-tooltip
                 class="item"
@@ -55,76 +60,11 @@
   </div>
 </template>
 
-<style lang="scss">
-.dir-tree {
-  display: flex;
-  // flex-flow: row;
-  // overflow: hidden;
-  // overflow-y: hidden;
-  .tree-panel {
-    display: flex;
-    flex-flow: column;
-  }
-}
-.tree-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 10px;
-  .refresh-btn {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 4px;
-    margin-right: 4px;
-    border-radius: 2px;
-    background-color: #eff2f7ad;
-    color: #409eff;
-  }
-  .refresh-btn:hover {
-    background-color: #409eff;
-    color: white;
-  }
-}
-
-
-.tree-container {
-  height: 100%;
-}
-.dirStyle {
-  font-weight: 700;
-}
-.iconStyle {
-  color: #fcb814;
-}
-#lineBox {
-  width: 20px;
-  /* border: 1px solid yellowgreen; */
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-#lineBox:hover {
-  cursor: w-resize;
-}
-.line {
-  width: 1px;
-  height: 100%;
-  /* background-color: red; */
-  background-color: #d1dbe6;
-}
-.shortline {
-  width: 2px;
-  height: 48px;
-  /* background-color: black; */
-  background-color: #d1dbe6;
-  margin-right: 2px;
-}
-</style>
-
 <script>
+// import http from "@/http/http"
+// import getTree from '../data/tree'
+import { getTree } from "@/api/api";
+
 export default {
   components: {},
   watch: {
@@ -133,6 +73,18 @@ export default {
     }
   },
   methods: {
+    getFileContent: function(param) {
+      console.log(param);
+      this.$parent.getFileContent(param)
+    },
+    generateLogTree: function() {
+      getTree()
+        .then(res => {
+          let treeStringJson = JSON.stringify(res.data);
+          this.fileTree = [res.data];
+        })
+        .catch(err => console.log(err));
+    },
     dragControllerDiv: function() {
       // 保留this引用
       let data = this;
@@ -186,167 +138,76 @@ export default {
   },
   mounted() {
     this.dragControllerDiv();
-    var treeJson = JSON.stringify([
-      {
-        id: 1,
-        label: "/home/xx/app/logloglogloglog",
-        isDir: true,
-        children: [
-          {
-            id: 4,
-            label: "info.log",
-            isDir: false
-          },
-          {
-            id: 5,
-            label: "job",
-            isDir: true,
-            children: [
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 10,
-                label: "end.log",
-                isDir: false
-              }
-            ]
-          },
-          {
-            id: 5,
-            label: "job1",
-            isDir: true,
-            children: [
-              {
-                id: 9,
-                label:
-                  "1xasmx asnx mas xmas xmas xasmnx asmnx asxsaxkasjxsa.log",
-                isDir: false
-              },
-              {
-                id: 9,
-                label: "1.log",
-                isDir: false
-              },
-              {
-                id: 10,
-                label: "end.log",
-                isDir: false
-              }
-            ]
-          },
-          {
-            id: 5,
-            label: "debug.log",
-            isDir: false
-          },
-          {
-            id: 6,
-            label: "error.log",
-            isDir: false
-          }
-        ]
-      }
-    ]);
-    var treeObj = JSON.parse(treeJson);
-
-    this.fileTree = treeObj;
+    this.generateLogTree();
   }
 };
 </script>
+
+
+<style lang="scss">
+.dir-tree {
+  display: flex;
+  // flex-flow: row;
+  // overflow: hidden;
+  // overflow-y: hidden;
+  .tree-panel {
+    display: flex;
+    flex-flow: column;
+  }
+}
+.tree-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+  .refresh-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    margin-right: 4px;
+    border-radius: 2px;
+    background-color: #eff2f7ad;
+    color: #409eff;
+  }
+  .refresh-btn:hover {
+    background-color: #409eff;
+    color: white;
+  }
+}
+
+.tree-container {
+  height: 100%;
+}
+.dirStyle {
+  font-weight: 700;
+}
+.iconStyle {
+  color: #fcb814;
+}
+#lineBox {
+  width: 20px;
+  /* border: 1px solid yellowgreen; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#lineBox:hover {
+  cursor: w-resize;
+}
+.line {
+  width: 1px;
+  height: 100%;
+  /* background-color: red; */
+  background-color: #d1dbe6;
+}
+.shortline {
+  width: 2px;
+  height: 48px;
+  /* background-color: black; */
+  background-color: #d1dbe6;
+  margin-right: 2px;
+}
+</style>

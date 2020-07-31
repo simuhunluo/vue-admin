@@ -10,9 +10,15 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "element-ui": "^2.13.2",
+    "promise.prototype.finally": "^3.1.2",
+    "sockjs-client": "^1.4.0",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-axios": "^2.1.5",
+    "vue-native-websocket": "^2.0.14",
+    "vue-router": "^3.0.1",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -7,6 +7,7 @@ import './assets/custom.scss';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css' // 默认主题
 import store from '@/store/index';
+
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
